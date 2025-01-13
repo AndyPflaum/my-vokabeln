@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { VokabelnFragenComponent } from '../vokabeln-fragen/vokabeln-fragen.component';
-import { CorrectAndIncorrectComponent } from '../correct-and-incorrect/correct-and-incorrect.component';
 import { VokabelnService } from '../vokabeln.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,7 +13,6 @@ import { DialogAddVokabelnComponent } from '../dialog-add-vokabeln/dialog-add-vo
   standalone: true,
   imports: [
     VokabelnFragenComponent,
-    CorrectAndIncorrectComponent,
     CommonModule,
     MatIconModule,
     MatButtonModule,
@@ -24,12 +22,30 @@ import { DialogAddVokabelnComponent } from '../dialog-add-vokabeln/dialog-add-vo
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'] 
 })
-export class MainComponent {
+export class MainComponent implements OnInit {
   private dialog = inject(MatDialog); 
+  vokabelnEmpty = false;
+
 
   constructor(public vokabelnService: VokabelnService) {}
+  ngOnInit(): void {
+    this.vokabelnService.isVokabelnEmpty().subscribe((empty) => {
+      this.vokabelnEmpty = empty;
+    });
+  }
+  
 
   openDialogAddVokabel() {
     this.dialog.open(DialogAddVokabelnComponent);
+  }
+
+  reloadAll() {
+    console.log('Alle Vokabeln werden neu geladen.');
+    // Aktion, um alle Vokabeln zurückzusetzen
+  }
+  
+  reloadIncorrect() {
+    console.log('Falsche Vokabeln werden neu geladen.');
+    // Aktion, um falsche Vokabeln abzufragen
   }
 }

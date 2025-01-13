@@ -46,6 +46,20 @@ section {
         width: 0px;
     }
 
+    .vokabel-complete{
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        h1{
+            cursor: pointer;
+        }
+        h2{
+            cursor: pointer;
+        }
+
+    }
+
     @keyframes moveToTopLeft {
         0% {
             top: 50%;

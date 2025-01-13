@@ -20,7 +20,13 @@
 
 
     </div>
-    <app-correct-and-incorrect></app-correct-and-incorrect>
+    <div *ngIf="vokabelnEmpty" class="vokabel-complete">
+        <h1>Alle Vokabeln bearbeitet!</h1>
+        <h2 (click)="reloadAll()">Alle Vokabeln neu abfragen!</h2>
+        <h2 (click)="reloadIncorrect()">Alle falschen Vokabeln abfragen!</h2>
+      </div>
+      
+      
 
     <button mat-fab aria-label="Example icon button with a delete icon" (click)="openDialogAddVokabel()">
         <mat-icon  >add</mat-icon>

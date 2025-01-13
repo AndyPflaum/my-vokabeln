@@ -1,15 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { VokabelnService } from '../vokabeln.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-correct-and-incorrect',
   standalone: true,
-  imports: [ CommonModule],
+  imports: [CommonModule],
   templateUrl: './correct-and-incorrect.component.html',
-  styleUrl: './correct-and-incorrect.component.scss'
+  styleUrl: './correct-and-incorrect.component.scss',
 })
 export class CorrectAndIncorrectComponent {
-  constructor(public vokabelnService: VokabelnService) {} // Service wird hier eingefügt
+  @Input() vokabel!: any; // Ganze Vokabel wird übergeben
 
+  constructor(public vokabelnService: VokabelnService) {}
+
+  handleCorrect() {
+    this.vokabelnService.correct(this.vokabel); // Ganze Vokabel übergeben
+  }
+
+  handleIncorrect() {
+    this.vokabelnService.incorrect(this.vokabel); // Ganze Vokabel übergeben
+  }
 }
