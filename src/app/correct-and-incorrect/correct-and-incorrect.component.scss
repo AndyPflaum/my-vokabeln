@@ -1,0 +1,21 @@
+section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Zentriert den Inhalt vertikal */
+    height: 100px; /* Feste Höhe für den Container */
+  
+    img {
+      height: 80px;
+      transition: transform 0.3s ease; /* Übergangseffekt */
+  
+      &:hover {
+        cursor: pointer;
+        transform: scale(1.125); /* Vergrößert das Bild ohne Änderung des Layouts */
+      }
+    }
+  
+    .thumbs-down {
+      transform: rotate(180deg); // Dreht das Bild auf den Kopf
+    }
+  }
+  

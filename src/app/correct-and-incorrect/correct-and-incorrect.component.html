@@ -1,0 +1,8 @@
+<section *ngIf="vokabelnService.arrowIsOpen">
+    <div>
+        <img (click)="vokabelnService.correct()" src="assets/img/thumb-up-297078_1280.png" alt="">
+    </div>
+    <div class="thumbs-down">
+        <img (click)="vokabelnService.incorrect()" src="assets/img/thumb-up-297078_1280.png" alt="">
+    </div>
+</section>

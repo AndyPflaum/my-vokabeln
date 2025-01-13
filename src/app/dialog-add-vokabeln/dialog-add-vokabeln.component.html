@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Gebe deine Vokabeln ein</h2>
+<mat-dialog-content>
+  <!-- <p>What's your favorite animal?</p> -->
+  <mat-form-field>
+    <mat-label>Englische Wort </mat-label>
+    <input matInput [(ngModel)]="vokabel.myLearnedWord" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Deutsches Wort </mat-label>
+    <input matInput [(ngModel)]="vokabel.myLanguage" />
+  </mat-form-field>
+  
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button (click)="saveVocabulary()" mat-button  cdkFocusInitial>Ok</button>
+</mat-dialog-actions>
+
+<!-- [mat-dialog-close]="animal()" -->
