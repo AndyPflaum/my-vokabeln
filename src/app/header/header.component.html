@@ -4,8 +4,8 @@
         <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #menu="matMenu">
-        <button mat-menu-item>
-            <mat-icon>dialpad</mat-icon>
+        <button mat-menu-item (click)="vokabelnService.openDialogAddVokabel()">
+            <mat-icon>add</mat-icon>
             <span>Neue Vokabeln einfügen</span>
         </button>
         <button mat-menu-item disabled>

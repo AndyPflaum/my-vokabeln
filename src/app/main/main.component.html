@@ -1,5 +1,4 @@
-
-<section>
+<section [class.backgroundcolorBlack]="backgroundBlack">
     <app-header></app-header>
 
     <div class="smiley">
@@ -17,18 +16,19 @@
 
         <app-vokabeln-fragen></app-vokabeln-fragen>
 
-
-
     </div>
     <div *ngIf="vokabelnEmpty" class="vokabel-complete">
         <h1>Alle Vokabeln bearbeitet!</h1>
-        <h2 (click)="reloadAll()">Alle Vokabeln neu abfragen!</h2>
-        <h2 (click)="reloadIncorrect()">Alle falschen Vokabeln abfragen!</h2>
+        <h2 (click)="vokabelnService.allVokabelnRestore()">Alle Vokabeln neu abfragen!</h2>
+        <h2 (click)="vokabelnService.incorrectVokabelnReload()">Alle falschen Vokabeln abfragen!</h2>
+    </div>
+    
+    <div [class.backgroundcolorBlack]="isYellow">
+        <img src="assets/img/the-light-bulb-349399_1280.png" alt="" (click)="toggleBackground()">
       </div>
-      
-      
 
-    <button mat-fab aria-label="Example icon button with a delete icon" (click)="openDialogAddVokabel()">
-        <mat-icon  >add</mat-icon>
-      </button>
+    <button mat-fab aria-label="Example icon button with a delete icon"
+        (click)="vokabelnService.openDialogAddVokabel()">
+        <mat-icon>add</mat-icon>
+    </button>
 </section>

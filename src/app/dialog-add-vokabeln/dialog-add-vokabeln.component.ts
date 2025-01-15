@@ -8,8 +8,7 @@ import { YourVocabulary } from '../model/yourVocabulary.class';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
-import { addDoc, collection, collectionData, Firestore, getFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { addDoc, collection, Firestore } from '@angular/fire/firestore';
 
 
 @Component({
@@ -21,7 +20,7 @@ import { Observable } from 'rxjs';
 })
 export class DialogAddVokabelnComponent {
   firestore: Firestore = inject(Firestore);
-  
+
 
   vokabel = new YourVocabulary()
   readonly dialogRef = inject(MatDialogRef<DialogAddVokabelnComponent>);
@@ -36,17 +35,17 @@ export class DialogAddVokabelnComponent {
 
   async saveVocabulary() {
     try {
-      const aCollection = collection(this.firestore, 'vokabeln'); 
+      const aCollection = collection(this.firestore, 'vokabeln');
       await addDoc(aCollection, {
         myLearnedWord: this.vokabel.myLearnedWord,
         myLanguage: this.vokabel.myLanguage,
-        createdAt: new Date().toISOString() 
+        createdAt: new Date().toISOString()
       });
-      this.onNoClick(); 
+      this.onNoClick();
     } catch (error) {
       console.error('Fehler beim Speichern der Vokabel:', error);
     }
   }
-  
+
 
 }

@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog,MatDialogModule  } from '@angular/material/dialog'; // MatDialog importieren
 import { HeaderComponent } from '../header/header.component';
-import { DialogAddVokabelnComponent } from '../dialog-add-vokabeln/dialog-add-vokabeln.component';
 
 @Component({
   selector: 'app-main',
@@ -23,6 +22,8 @@ import { DialogAddVokabelnComponent } from '../dialog-add-vokabeln/dialog-add-vo
   styleUrls: ['./main.component.scss'] 
 })
 export class MainComponent implements OnInit {
+  backgroundBlack = false;
+  isYellow = false;
   private dialog = inject(MatDialog); 
   vokabelnEmpty = false;
 
@@ -34,18 +35,10 @@ export class MainComponent implements OnInit {
     });
   }
   
-
-  openDialogAddVokabel() {
-    this.dialog.open(DialogAddVokabelnComponent);
+  toggleBackground() {
+    this.backgroundBlack = !this.backgroundBlack; // Umschalten der Hintergrundfarbe
+    this.isYellow = !this.isYellow;
   }
 
-  reloadAll() {
-    console.log('Alle Vokabeln werden neu geladen.');
-    // Aktion, um alle Vokabeln zurückzusetzen
-  }
-  
-  reloadIncorrect() {
-    console.log('Falsche Vokabeln werden neu geladen.');
-    // Aktion, um falsche Vokabeln abzufragen
-  }
+
 }

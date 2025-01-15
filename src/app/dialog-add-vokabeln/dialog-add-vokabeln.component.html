@@ -9,11 +9,14 @@
     <mat-label>Deutsches Wort </mat-label>
     <input matInput [(ngModel)]="vokabel.myLanguage" />
   </mat-form-field>
-  
+
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button (click)="saveVocabulary()" mat-button  cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onNoClick()">Abbrechen</button>
+  <button mat-button (click)="saveVocabulary()" [disabled]="!vokabel.myLearnedWord || !vokabel.myLanguage"
+    cdkFocusInitial>
+    Speichern
+  </button>
 </mat-dialog-actions>
 
 <!-- [mat-dialog-close]="animal()" -->
