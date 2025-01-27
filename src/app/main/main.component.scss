@@ -10,7 +10,7 @@ section {
         background-color: black;
     }
 
-    ;
+    
 
     img {
         height: 80px;
@@ -21,8 +21,8 @@ section {
         cursor: pointer;
     
         &.backgroundYellow {
-            -webkit-filter: brightness(1.2) saturate(2) hue-rotate(60deg);
-            filter: brightness(1.2) saturate(2) hue-rotate(60deg);
+            -webkit-filter: sepia(1) brightness(1.2) saturate(2.5) hue-rotate(30deg);
+            filter: sepia(1) brightness(1.2) saturate(2.5) hue-rotate(30deg);
         }
     }
     
@@ -74,6 +74,7 @@ section {
         top: 30%;
         left: 50%;
         transform: translate(-50%, -50%);
+        text-align: center;
 
         h1 {
             cursor: pointer;
@@ -81,6 +82,15 @@ section {
 
         h2 {
             cursor: pointer;
+        }
+
+        &.textWhith{
+            h1{
+                color: white;
+            }
+            h2{
+                color: white;
+            }
         }
 
     }

@@ -22,7 +22,7 @@ import { HeaderComponent } from '../header/header.component';
   styleUrls: ['./main.component.scss'] 
 })
 export class MainComponent implements OnInit {
-  backgroundBlack = false;
+  // backgroundBlack = false;
   isYellow = false;
   private dialog = inject(MatDialog); 
   vokabelnEmpty = false;
@@ -36,7 +36,7 @@ export class MainComponent implements OnInit {
   }
   
   toggleBackground() {
-    this.backgroundBlack = !this.backgroundBlack; // Umschalten der Hintergrundfarbe
+    this.vokabelnService.backgroundBlack = !this.vokabelnService.backgroundBlack; // Umschalten der Hintergrundfarbe
     this.isYellow = !this.isYellow;
   }
 

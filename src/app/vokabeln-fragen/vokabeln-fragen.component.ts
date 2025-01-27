@@ -14,6 +14,7 @@ import { CorrectAndIncorrectComponent } from '../correct-and-incorrect/correct-a
 export class VokabelnFragenComponent {
   vokabeln$ = this.vokabelnService.getVokabeln(); // Observable der Vokabeln abrufen
   currentIndex = 0;
+  
 
   constructor(public vokabelnService: VokabelnService) {} // Service wird hier eingefügt
 

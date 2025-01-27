@@ -12,6 +12,7 @@ export class VokabelnService {
   isCorrect = false;
   isIncorrect = false; 
   arrowIsOpen = false;
+  backgroundBlack = false;
   private dialog = inject(MatDialog); 
 
 
@@ -46,6 +47,7 @@ export class VokabelnService {
 
   async correct(vokabel: any) {
     const correctCollection = collection(this.firestore, 'correctvokabel');
+    this.closeArrow();
   
     try {
       // 1. Vokabel in die "correctvokabel"-Sammlung kopieren, ohne die ID
@@ -96,6 +98,11 @@ export class VokabelnService {
   
   openArrow(){
     this.arrowIsOpen = true;
+  }
+
+  closeArrow(){
+    this.arrowIsOpen = false;
+
   }
 
   async moveDocuments(sourceCollectionName: string, targetCollectionName: string) {
