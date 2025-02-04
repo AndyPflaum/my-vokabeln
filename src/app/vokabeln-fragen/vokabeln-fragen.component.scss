@@ -8,6 +8,17 @@ section{
     flex-direction: column;
     border-radius: 20px;
     border: solid 3px ;
+    text-align: center;
+
+    &.isGreen{
+        color: green;
+        background-color: green;
+    }
+
+    &.isRed{
+        color: red;
+        background-color: red;
+    }
 
     .sprachen{
         margin: 30px;

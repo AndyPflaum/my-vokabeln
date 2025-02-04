@@ -22,7 +22,6 @@ import { HeaderComponent } from '../header/header.component';
   styleUrls: ['./main.component.scss'] 
 })
 export class MainComponent implements OnInit {
-  // backgroundBlack = false;
   isYellow = false;
   private dialog = inject(MatDialog); 
   vokabelnEmpty = false;

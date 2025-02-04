@@ -1,5 +1,5 @@
-<section>
-  <div *ngFor="let vokabel of (vokabeln$ | async); let i = index" [hidden]="i !== currentIndex">
+<section [class.isGreen]="vokabelnService.isGreenOn" [class.isRed]="vokabelnService.isRed">
+  <div *ngFor="let vokabel of (vokabeln$ | async); let i = index" [hidden]="i !== currentIndex" >
     <div class="sprachen">
       <h2>{{ vokabel.myLearnedWord }}</h2>
     </div>
@@ -7,7 +7,8 @@
       <h2>{{ vokabel.myLanguage }}</h2>
     </div>
 
-    <div *ngIf="!vokabelnService.englisch">
+    <div *ngIf="!vokabelnService.englisch &&!vokabelnService.isGreenOn &&!vokabelnService.isRed">
+
       <svg (click)="vokabelnService.schaueVokabel(vokabel.id)" xmlns="http://www.w3.org/2000/svg" height="24px"
         viewBox="0 -960 960 960" width="24px" fill="#5f6368">
         <path d="M480-80 200-360l56-56 184 183v-647h80v647l184-184 56 57L480-80Z" />

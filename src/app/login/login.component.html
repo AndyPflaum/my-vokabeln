@@ -1,0 +1,26 @@
+<section>
+    <app-header></app-header>
+    <div class="loggin">
+        <mat-form-field>
+            <mat-label>Benutzername</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Passwort</mat-label>
+            <input matInput>
+        </mat-form-field>
+        <div class="example-button-row">
+            <button mat-raised-button (click)="loggin()">Anmelden</button>
+            <button mat-raised-button (click)="vokabelnService.openDialogRegister()">Registrieren</button>
+        </div>
+
+        <div class="no-account">
+            <h2 (click)="vokabelnService.openDialogRegister()">Noch kein Account?</h2>
+        </div>
+
+
+    </div>
+
+
+
+</section>

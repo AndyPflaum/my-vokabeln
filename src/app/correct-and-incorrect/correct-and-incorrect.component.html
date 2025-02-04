@@ -1,9 +1,9 @@
 <section *ngIf="vokabelnService.arrowIsOpen">
     <div>
-      <img (click)="vokabelnService.correct(vokabel)" src="assets/img/thumb-up-297078_1280.png" alt="">
+      <img (click)="handleCorrect()" src="assets/img/thumb-up-297078_1280.png" alt="">
     </div>
     <div class="thumbs-down">
-      <img (click)="vokabelnService.incorrect(vokabel)" src="assets/img/thumb-up-297078_1280.png" alt="">
+      <img (click)="handleIncorrect()" src="assets/img/thumb-up-297078_1280.png" alt="">
     </div>
   </section>
   

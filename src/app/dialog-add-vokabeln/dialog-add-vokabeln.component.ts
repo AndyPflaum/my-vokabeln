@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { addDoc, collection, Firestore } from '@angular/fire/firestore';
+import { VokabelnService } from '../vokabeln.service';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class DialogAddVokabelnComponent {
   vokabel = new YourVocabulary()
   readonly dialogRef = inject(MatDialogRef<DialogAddVokabelnComponent>);
 
-  constructor() {
+  constructor(public vokabelnService: VokabelnService) {
   }
 
   onNoClick() {

@@ -3,6 +3,8 @@ import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, getDocs 
 import { map, Observable } from 'rxjs';
 import { DialogAddVokabelnComponent } from './dialog-add-vokabeln/dialog-add-vokabeln.component';
 import { MatDialog } from '@angular/material/dialog';
+import { log } from 'console';
+import { RegisterComponent } from './register/register.component';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +12,15 @@ import { MatDialog } from '@angular/material/dialog';
 export class VokabelnService {
   englisch = false;
   isCorrect = false;
-  isIncorrect = false; 
+  isIncorrect = false;
   arrowIsOpen = false;
   backgroundBlack = false;
-  private dialog = inject(MatDialog); 
+  isGreenOn = false;
+  isRed = false;
+  private dialog = inject(MatDialog);
 
 
-  constructor(private firestore: Firestore) {}
+  constructor(private firestore: Firestore) { }
 
   getVokabeln(): Observable<any[]> {
     const vokabelnCollection = collection(this.firestore, 'vokabeln');
@@ -29,26 +33,26 @@ export class VokabelnService {
       .then(() => console.log(`Vokabel mit ID ${vokabelId} wurde als korrekt gespeichert.`))
       .catch((error) => console.error('Fehler beim Speichern der korrekten Vokabel:', error));
   }
-  
+
   pushVokabelTooUnknownVokabel(vokabelId: string) {
     const vokabelnCollection = collection(this.firestore, 'inCorrectvokael');
     addDoc(vokabelnCollection, { id: vokabelId })
       .then(() => console.log(`Vokabel mit ID ${vokabelId} wurde als inkorrekt gespeichert.`))
       .catch((error) => console.error('Fehler beim Speichern der inkorrekten Vokabel:', error));
   }
-  
+
 
   schaueVokabel(vokabelId: string) {
     console.log('Aktuelle Vokabel ID:', vokabelId);
     this.englisch = true;
     this.openArrow();
   }
-  
+
 
   async correct(vokabel: any) {
     const correctCollection = collection(this.firestore, 'correctvokabel');
     this.closeArrow();
-  
+
     try {
       // 1. Vokabel in die "correctvokabel"-Sammlung kopieren, ohne die ID
       const { id, ...vokabelOhneId } = vokabel; // Entferne die ID aus dem Objekt
@@ -56,10 +60,10 @@ export class VokabelnService {
         ...vokabelOhneId,
         createdAt: new Date().toISOString(),
       });
-  
+
       // 2. Vokabel aus der ursprünglichen Sammlung entfernen
       await this.deleteVokabel(id);
-  
+
       console.log(`Vokabel "${vokabel.myLearnedWord}" wurde als korrekt markiert und verschoben.`);
       this.arrowIsOpen = false; // Nächste Frage laden
     } catch (error) {
@@ -67,23 +71,23 @@ export class VokabelnService {
     }
     this.englisch = false;
   }
-  
+
   async incorrect(vokabel: any) {
     const incorrectCollection = collection(this.firestore, 'incorrectvokabel');
-  
+
     try {
       const { id, ...vokabelOhneId } = vokabel; // Entferne die ID aus dem Objekt
       await addDoc(incorrectCollection, {
         ...vokabelOhneId,
         createdAt: new Date().toISOString(),
       });
-        await this.deleteVokabel(id);
-        this.arrowIsOpen = false; // Nächste Frage laden
+      await this.deleteVokabel(id);
+      this.arrowIsOpen = false; // Nächste Frage laden
     } catch (error) {
     }
     this.englisch = false;
   }
-  
+
   private async deleteVokabel(vokabelId: string) {
     const vokabelDoc = doc(this.firestore, `vokabeln/${vokabelId}`);
     try {
@@ -95,12 +99,12 @@ export class VokabelnService {
   isVokabelnEmpty(): Observable<boolean> {
     return this.getVokabeln().pipe(map((vokabeln) => vokabeln.length === 0));
   }
-  
-  openArrow(){
+
+  openArrow() {
     this.arrowIsOpen = true;
   }
 
-  closeArrow(){
+  closeArrow() {
     this.arrowIsOpen = false;
 
   }
@@ -109,10 +113,10 @@ export class VokabelnService {
     try {
       const sourceCollection = collection(this.firestore, sourceCollectionName);
       const targetCollection = collection(this.firestore, targetCollectionName);
-  
+
       // Alle Dokumente aus der Quell-Sammlung holen
       const sourceDocs = await getDocs(sourceCollection);
-  
+
       // Dokumente iterieren und verschieben
       for (const docSnap of sourceDocs.docs) {
         const data = docSnap.data(); // Daten des Dokuments
@@ -124,29 +128,29 @@ export class VokabelnService {
       console.error(`Fehler beim Verschieben von Dokumenten aus ${sourceCollectionName}:`, error);
     }
   }
-  
+
   async allVokabelnRestore() {
     try {
       // Korrekte Vokabeln verschieben
       await this.moveDocuments('correctvokabel', 'vokabeln');
       // Falsche Vokabeln verschieben
       await this.moveDocuments('incorrectvokabel', 'vokabeln');
-  
+
       console.log('Alle Vokabeln wurden erfolgreich wiederhergestellt.');
     } catch (error) {
       console.error('Fehler in allVokabelnRestore:', error);
     }
   }
-  
+
 
   async incorrectVokabelnReload() {
     try {
       // Abrufen der Dokumente aus der Sammlung 'incorrectvokabel'
-      const incorrectDocs = await this.fetchIncorrectVokabeln(); 
-  
+      const incorrectDocs = await this.fetchIncorrectVokabeln();
+
       // Zugriff auf die Ziel-Sammlung
       const vokabelnCollection = this.getCollectionVokabeln();
-  
+
       // Schleife über alle Dokumente, um sie zu verschieben
       for (const docSnap of incorrectDocs) {
         const data = docSnap.data(); // Daten des Dokuments
@@ -154,17 +158,17 @@ export class VokabelnService {
         await addDoc(vokabelnCollection, vokabelOhneId); // In 'vokabeln' hinzufügen
         await deleteDoc(docSnap.ref); // Aus 'incorrectvokabel' löschen
       }
-  
+
       console.log('Alle inkorrekten Vokabeln wurden verschoben.');
     } catch (error) {
       console.error('Fehler in incorrectVokabelnReload:', error);
     }
   }
-  
+
   getCollectionVokabeln() {
     return collection(this.firestore, 'vokabeln');
   }
-  
+
   async fetchIncorrectVokabeln() {
     try {
       const incorrectCollection = collection(this.firestore, 'incorrectvokabel');
@@ -175,10 +179,40 @@ export class VokabelnService {
       return []; // Leeres Array im Fehlerfall
     }
   }
-  
-    openDialogAddVokabel() {
-      this.dialog.open(DialogAddVokabelnComponent);
-    }
-  
-  
+
+  openDialogAddVokabel() {
+    this.dialog.open(DialogAddVokabelnComponent);
+  }
+
+  openDialogRegister(){
+        this.dialog.open(RegisterComponent);
+    
+  }
+
+  vokabelIsGreen() {
+    this.isGreenOn = true;
+
+    setTimeout(() => {
+      this.vokabelIsNotGreen();
+    }, 500);
+
+  }
+
+  vokabelIsNotGreen() {
+    this.isGreenOn = false;
+
+  }
+
+  vokabelIsRed() {
+    this.isRed = true;
+    setTimeout(() => {
+      this.vokabelIsNotRed();
+    }, 500);
+  }
+  vokabelIsNotRed() {
+    this.isRed = false;
+
+  }
+
+
 }
