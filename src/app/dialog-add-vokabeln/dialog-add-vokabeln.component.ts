@@ -35,17 +35,9 @@ export class DialogAddVokabelnComponent {
   }
 
   async saveVocabulary() {
-    try {
-      const aCollection = collection(this.firestore, 'vokabeln');
-      await addDoc(aCollection, {
-        myLearnedWord: this.vokabel.myLearnedWord,
-        myLanguage: this.vokabel.myLanguage,
-        createdAt: new Date().toISOString()
-      });
-      this.onNoClick();
-    } catch (error) {
-      console.error('Fehler beim Speichern der Vokabel:', error);
-    }
+    this.vokabelnService.addVokabelnForUser(this.vokabel);
+    this.onNoClick();
+  
   }
 
 

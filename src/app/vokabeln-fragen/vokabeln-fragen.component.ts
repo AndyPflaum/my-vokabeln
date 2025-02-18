@@ -12,7 +12,7 @@ import { CorrectAndIncorrectComponent } from '../correct-and-incorrect/correct-a
   styleUrl: './vokabeln-fragen.component.scss'
 })
 export class VokabelnFragenComponent {
-  vokabeln$ = this.vokabelnService.getVokabeln(); // Observable der Vokabeln abrufen
+  vokabeln$ = this.vokabelnService.getVokabelnForUser(); // Observable der Vokabeln abrufen
   currentIndex = 0;
   
 

@@ -1,20 +1,24 @@
 <section>
     <h1>Deine Vokabeln</h1>
+    <h2>Eingeloggt: {{ userName }}</h2>
     <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
         <mat-icon>more_vert</mat-icon>
     </button>
+
     <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="vokabelnService.openDialogAddVokabel()">
+
+        <button mat-menu-item *ngIf="userName" (click)="vokabelnService.openDialogAddVokabel()">
             <mat-icon>add</mat-icon>
             <span>Neue Vokabeln einfügen</span>
         </button>
+
         <button mat-menu-item disabled>
             <mat-icon>voicemail</mat-icon>
             <span>Check voice mail</span>
         </button>
         <button mat-menu-item (click)="logOut()">
             <mat-icon>logout</mat-icon>
-            <span >Log out</span>
+            <span>Log out</span>
         </button>
     </mat-menu>
 
