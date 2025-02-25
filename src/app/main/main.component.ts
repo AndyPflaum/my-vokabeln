@@ -4,8 +4,9 @@ import { VokabelnService } from '../vokabeln.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog,MatDialogModule  } from '@angular/material/dialog'; // MatDialog importieren
+import { MatDialog, MatDialogModule } from '@angular/material/dialog'; // MatDialog importieren
 import { HeaderComponent } from '../header/header.component';
+import { ShowVocabularyComponent } from '../show-vocabulary/show-vocabulary.component';
 
 @Component({
   selector: 'app-main',
@@ -16,24 +17,25 @@ import { HeaderComponent } from '../header/header.component';
     MatIconModule,
     MatButtonModule,
     HeaderComponent,
-    MatDialogModule 
+    MatDialogModule, 
+    ShowVocabularyComponent
   ],
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'] 
+  styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit {
   isYellow = false;
-  private dialog = inject(MatDialog); 
+  private dialog = inject(MatDialog);
   vokabelnEmpty = false;
 
 
-  constructor(public vokabelnService: VokabelnService) {}
+  constructor(public vokabelnService: VokabelnService) { }
   ngOnInit(): void {
     this.vokabelnService.isVokabelnEmpty().subscribe((empty) => {
       this.vokabelnEmpty = empty;
     });
   }
-  
+
   toggleBackground() {
     this.vokabelnService.backgroundBlack = !this.vokabelnService.backgroundBlack; // Umschalten der Hintergrundfarbe
     this.isYellow = !this.isYellow;

@@ -5,28 +5,41 @@ section {
     overflow-x: hidden;
     font-family: cursive;
     background-color: lightblue;
+    background-image: url('/assets/img/book-4109187_1280.png');
+    background-repeat: no-repeat;
+    /* verhindert Wiederholung */
+    background-position: center;
     font-family: cursive, Arial, Helvetica, sans-serif;
 
     &.backgroundcolorBlack {
         background-color: black;
     }
 
-    
+    .arrow {
+        height: 80px;
+        width: auto;
+        position: absolute;
+        bottom: 80px !important;
+        right: 10px !important;
+        animation: arrowBounce 1s ease-in-out infinite;
+        /* Animation mit Dauer 1s, kontinuierlich */
+    }
 
-    img {
+
+    .light {
         height: 80px;
         width: 80px;
         position: absolute;
         left: 20px;
         bottom: 20px;
         cursor: pointer;
-    
+
         &.backgroundYellow {
             -webkit-filter: sepia(1) brightness(1.2) saturate(2.5) hue-rotate(30deg);
             filter: sepia(1) brightness(1.2) saturate(2.5) hue-rotate(30deg);
         }
     }
-    
+
 
 
     button {
@@ -72,28 +85,84 @@ section {
 
     .vokabel-complete {
         position: absolute;
-        top: 30%;
+        top: 20%;
         left: 50%;
         transform: translate(-50%, -50%);
         text-align: center;
+        animation: 2s ease-in-out;
+
 
         h1 {
-            cursor: pointer;
+            color: red;
         }
+
 
         h2 {
             cursor: pointer;
-        }
-
-        &.textWhith{
-            h1{
-                color: white;
-            }
-            h2{
-                color: white;
+            animation: all 2s ease-in-out;
+            font-size: 18px;
+            &:hover{
+                animation: wobble 0.5s ease-in-out infinite;
+                font-size: 20px;
             }
         }
 
+        &.textWhith {
+            h1 {
+                color: white;
+            }
+
+            h2 {
+                color: white;
+            }
+        }
+
+    }
+
+    app-show-vocabulary {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+    }
+
+    @keyframes arrowBounce {
+        0% {
+            transform: translateY(0);
+            /* Ausgangsposition */
+        }
+
+        50% {
+            transform: translateY(-10px);
+            /* Bewege den Pfeil nach oben */
+        }
+
+        100% {
+            transform: translateY(0);
+            /* Rückkehr zur Ausgangsposition */
+        }
+    }
+
+    @keyframes wobble {
+        0% {
+            transform: scale(1.2) rotate(0deg);
+        }
+
+        25% {
+            transform: scale(1.2) rotate(3deg);
+        }
+
+        50% {
+            transform: scale(1.2) rotate(-3deg);
+        }
+
+        75% {
+            transform: scale(1.2) rotate(3deg);
+        }
+
+        100% {
+            transform: scale(1.2) rotate(0deg);
+        }
     }
 
     @keyframes moveToTopLeft {

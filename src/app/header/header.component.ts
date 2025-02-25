@@ -20,9 +20,4 @@ export class HeaderComponent {
     this.userName = this.vokabelnService.getUserName();
   }
 
-  logOut() {
-    this.router.navigate(['/LogIn']);
-    // window.location.reload();
-
-  }
 }

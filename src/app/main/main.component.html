@@ -24,11 +24,18 @@
     </div>
     
     
-        <img src="assets/img/the-light-bulb-349399_1280.png" alt="" (click)="toggleBackground()"  [class.backgroundYellow]="vokabelnService.backgroundBlack">
-     
+    <img class="light" src="assets/img/the-light-bulb-349399_1280.png" alt="" 
+    (click)="toggleBackground()"  
+    [class.backgroundYellow]="vokabelnService.backgroundBlack" 
+    [class.backgroundFilter]="vokabelnService.backgroundBlack">
+
+    <img  *ngIf="vokabelnEmpty" class="arrow" src="assets/img/arrow-31178_1280.png" alt="">
+       
 
     <button mat-fab aria-label="Example icon button with a delete icon"
         (click)="vokabelnService.openDialogAddVokabel()">
         <mat-icon>add</mat-icon>
     </button>
+
+    <app-show-vocabulary></app-show-vocabulary>
 </section>

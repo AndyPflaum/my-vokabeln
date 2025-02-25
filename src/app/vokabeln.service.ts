@@ -23,6 +23,7 @@ export class VokabelnService {
   backgroundBlack = false;
   isGreenOn = false;
   isRed = false;
+  showVokabeln: boolean = false;
   private dialog = inject(MatDialog);
   private router = inject(Router);
 
@@ -75,7 +76,35 @@ export class VokabelnService {
 
   setUserId(userId: string): void {
     this.userId = userId;
+    this.loadUserName(userId); // Benutzername aus Firestore laden
     console.log('Benutzer-ID gesetzt:', userId);
+  }
+
+  async loadUserName(userId: string) {
+    const userRef = doc(this.firestore, `users/${userId}`);
+    const userSnap = await getDoc(userRef);
+    
+    if (userSnap.exists()) {
+      this.userName = userSnap.data()['username'] || 'Unbekannt';
+    } else {
+      this.userName = 'Unbekannt'; 
+    }
+  }
+
+  setUserName(name: string) {
+    this.userName = name;
+  }
+
+  logout() {
+    this.userLoggedIn = false;
+    this.userName = ''; // Benutzername beim Logout zurücksetzen
+    this.userId = ''; // Benutzer-ID zurücksetzen
+    this.router.navigate(['/LogIn']);
+
+  }
+
+  gastLoggin(){
+    this.userName = 'Gast';
   }
 
   async addVokabelnForUser(vokabel: any) {
@@ -330,6 +359,11 @@ export class VokabelnService {
     this.arrowIsOpen = false;
 
   }
+
+
+  toggleShowVokabeln() {
+    this.showVokabeln = true;
+}
 
 
 }

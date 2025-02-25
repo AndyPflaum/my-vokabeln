@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'; // Neue Auth-API
+import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'; // Neue Auth-API
 import { VokabelnService } from '../vokabeln.service';
 import { HeaderComponent } from '../header/header.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -38,28 +38,20 @@ export class LoginComponent {
   constructor(private router: Router, public vokabelnService: VokabelnService) {}
 
   loggin() {
-    // E-Mail-Validierung
-    if (!this.isValidEmail(this.email)) {
-      alert('Bitte gib eine gültige E-Mail-Adresse ein.');
-      return;
-    }
-
     const auth = getAuth();
     signInWithEmailAndPassword(auth, this.email, this.password)
       .then((userCredential) => {
-        // Benutzer ist angemeldet
         const user = userCredential.user;
-        const userId = user.uid;  // Holen der Benutzer-ID
-  
-        // Setze die Benutzer-ID im VokabelnService
+        const userId = user.uid;
+        const userName = user.displayName || user.email || 'Gast'; // Falls kein Display-Name existiert
+
+        // Speichern des Benutzernamens & Benutzer-ID
         this.vokabelnService.setUserId(userId);
-        
-        // Setze den loggedIn Status
+        this.vokabelnService.setUserName(userName);
         this.vokabelnService.userLoggedIn = true;
 
-        // Weiterleitung zur Vocabulary-Seite oder andere Aktionen
+        // Weiterleitung
         this.router.navigate(['/Vocabulary']);
-        console.log(`Benutzer-ID: ${userId}`);
       })
       .catch((error) => {
         console.error('Fehler bei der Anmeldung:', error);
@@ -83,6 +75,12 @@ export class LoginComponent {
       console.log('Fehler: Das Formular ist ungültig');
     }
   }
+
+  logginGast(){
+    this.vokabelnService.setUserName('Gast');
+
+  }
+
 
   gastLoggin() {
     const auth = getAuth();
@@ -109,6 +107,7 @@ export class LoginComponent {
         console.error('Fehler bei der Gast-Anmeldung:', error);
         alert('Fehler bei der Anmeldung. Bitte überprüfen Sie Ihre Anmeldedaten.');
       });
+      this.vokabelnService.gastLoggin();
   }
 
 }

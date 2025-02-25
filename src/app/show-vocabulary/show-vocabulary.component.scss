@@ -1,0 +1,44 @@
+section {
+    background-color: white;
+    width: 80vw;
+    height: 80vh;
+    z-index: 9;
+    padding: 20px;
+    border: 2px solid #000; 
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Schatten, der rund um das Element erscheint */
+    position: absolute;
+    top: 10%; /* Mittig vertikal auf der Seite */
+    transform: translateY(-50%); /* Vertikale Zentrierung */
+    transition: transform 0.5s ease-in-out; /* Übergang für das Verlassen */
+}
+
+/* Die Klasse, wenn die Section von rechts kommt (Einblenden) */
+.slideIn {
+    animation: slideInFromRight 0.5s ease-in-out forwards;
+}
+
+/* Die Klasse, wenn die Section nach rechts verschwindet (Ausblenden) */
+.slideOut {
+    animation: slideOutToRight 0.5s ease-in-out forwards;
+}
+
+/* Die Keyframe-Animation, die das Element von rechts nach links schiebt (Einblenden) */
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(100vw); /* Ausgangspunkt: außerhalb des Bildschirms */
+    }
+    100% {
+        transform: translateX(0); /* Endpunkt: Element ist an seiner finalen Position */
+    }
+}
+
+/* Die Keyframe-Animation, die das Element zurück nach rechts schiebt (Ausblenden) */
+@keyframes slideOutToRight {
+    0% {
+        transform: translateX(0); /* Start von der aktuellen Position */
+    }
+    100% {
+        transform: translateX(100vw); /* Ausgangspunkt: außerhalb des Bildschirms */
+    }
+}
