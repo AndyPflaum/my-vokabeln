@@ -27,9 +27,12 @@ export class MainComponent implements OnInit {
   isYellow = false;
   private dialog = inject(MatDialog);
   vokabelnEmpty = false;
+  userName: string = '';
 
 
-  constructor(public vokabelnService: VokabelnService) { }
+  constructor(public vokabelnService: VokabelnService) {
+    this.userName = this.vokabelnService.getUserName();
+   }
   ngOnInit(): void {
     this.vokabelnService.isVokabelnEmpty().subscribe((empty) => {
       this.vokabelnEmpty = empty;

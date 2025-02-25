@@ -32,7 +32,7 @@
     <img  *ngIf="vokabelnEmpty" class="arrow" src="assets/img/arrow-31178_1280.png" alt="">
        
 
-    <button mat-fab aria-label="Example icon button with a delete icon"
+    <button *ngIf="userName" mat-fab aria-label="Example icon button with a delete icon"
         (click)="vokabelnService.openDialogAddVokabel()">
         <mat-icon>add</mat-icon>
     </button>
