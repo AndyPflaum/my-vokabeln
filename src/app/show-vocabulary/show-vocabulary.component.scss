@@ -4,13 +4,88 @@ section {
     height: 80vh;
     z-index: 9;
     padding: 20px;
-    border: 2px solid #000; 
+    border: 2px solid #000;
     border-radius: 20px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Schatten, der rund um das Element erscheint */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
     position: absolute;
-    top: 10%; /* Mittig vertikal auf der Seite */
-    transform: translateY(-50%); /* Vertikale Zentrierung */
-    transition: transform 0.5s ease-in-out; /* Übergang für das Verlassen */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateX(100vw); // Startposition außerhalb des Bildschirms
+    transition: transform 0.5s ease-in-out;
+
+
+    .header-in-vocabulary-editing {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        mat-icon {
+            cursor: pointer;
+        }
+
+    }
+
+    .vokabel-liste {
+        height: calc(100% - 60px);
+        /* 100% der Section-Höhe minus Header-Größe */
+        overflow-y: auto;
+        /* Vertikales Scrollen bei Bedarf */
+        padding: 10px 0;
+
+        /* Padding für etwas Abstand zum Inhalt */
+        &::-webkit-scrollbar {
+            width: 8px;
+            /* Breite des Scrollbalkens */
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent; /* Hintergrund der Scrollleiste */
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.5); /* Farbe des Scrollbalkens */
+            border-radius: 4px; /* Abgerundete Ecken für den Scrollbalken */
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.7); /* Farbe des Scrollbalkens, wenn der Nutzer darüber schwebt */
+        }
+
+
+        ul {
+            list-style: none;
+            padding: 0;
+
+            li {
+                display: flex;
+                justify-content: space-between; // Abstand zwischen Deutsch & Englisch
+                padding: 10px;
+                border-bottom: 1px solid #ccc;
+
+                &:last-child {
+                    border-bottom: none; // Entfernt die Linie beim letzten Eintrag
+                }
+
+                .deutsch {
+                    font-weight: bold;
+                    color: #333;
+                }
+
+                .englisch {
+                    color: #007bff;
+                    font-style: italic;
+                }
+            }
+        }
+
+    }
+
+
+}
+
+.showVokabeln {
+    transform: translate(-50%, -50%) translateX(0) !important;
 }
 
 /* Die Klasse, wenn die Section von rechts kommt (Einblenden) */
@@ -26,19 +101,25 @@ section {
 /* Die Keyframe-Animation, die das Element von rechts nach links schiebt (Einblenden) */
 @keyframes slideInFromRight {
     0% {
-        transform: translateX(100vw); /* Ausgangspunkt: außerhalb des Bildschirms */
+        transform: translateX(100vw);
+        /* Ausgangspunkt: außerhalb des Bildschirms */
     }
+
     100% {
-        transform: translateX(0); /* Endpunkt: Element ist an seiner finalen Position */
+        transform: translateX(0);
+        /* Endpunkt: Element ist an seiner finalen Position */
     }
 }
 
 /* Die Keyframe-Animation, die das Element zurück nach rechts schiebt (Ausblenden) */
 @keyframes slideOutToRight {
     0% {
-        transform: translateX(0); /* Start von der aktuellen Position */
+        transform: translateX(0);
+        /* Start von der aktuellen Position */
     }
+
     100% {
-        transform: translateX(100vw); /* Ausgangspunkt: außerhalb des Bildschirms */
+        transform: translateX(100vw);
+        /* Ausgangspunkt: außerhalb des Bildschirms */
     }
 }

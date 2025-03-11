@@ -7,6 +7,8 @@ import { RegisterComponent } from './register/register.component';
 import { getAuth } from '@angular/fire/auth';
 import { onAuthStateChanged, User } from '@firebase/auth';
 import { Router } from '@angular/router'; // Router importieren
+import { combineLatest } from 'rxjs'; // Importiere combineLatest
+
 
 
 @Injectable({
@@ -74,6 +76,8 @@ export class VokabelnService {
     return this.userName;
   }
 
+  
+
   setUserId(userId: string): void {
     this.userId = userId;
     this.loadUserName(userId); // Benutzername aus Firestore laden
@@ -94,6 +98,33 @@ export class VokabelnService {
   setUserName(name: string) {
     this.userName = name;
   }
+
+  getAllVokabelnForUser(): Observable<any[]> {
+    if (!this.userId) {
+      console.error('Kein Benutzer angemeldet');
+      return new Observable(); // Rückgabe eines leeren Observables, wenn kein Benutzer angemeldet
+    }
+  
+    // Collection-Referenzen für 'vokabeln', 'correctvokabel' und 'incorrectvokabel'
+    const vokabelnCollection = collection(this.firestore, `users/${this.userId}/vokabeln`);
+    const correctCollection = collection(this.firestore, `users/${this.userId}/correctvokabel`);
+    const incorrectCollection = collection(this.firestore, `users/${this.userId}/incorrectvokabel`);
+  
+    // Alle Sammlungen kombinieren
+    const combinedVokabeln = [
+      collectionData(vokabelnCollection, { idField: 'id' }),
+      collectionData(correctCollection, { idField: 'id' }),
+      collectionData(incorrectCollection, { idField: 'id' })
+    ];
+  
+    return combineLatest(combinedVokabeln).pipe(
+      map(([vokabeln, correct, incorrect]) => {
+        // Alle Vokabeln zusammenführen
+        return [...vokabeln, ...correct, ...incorrect];
+      })
+    );
+  }
+  
 
   logout() {
     this.userLoggedIn = false;
@@ -362,7 +393,7 @@ export class VokabelnService {
 
 
   toggleShowVokabeln() {
-    this.showVokabeln = true;
+    this.showVokabeln =!this.showVokabeln;
 }
 
 

@@ -1,5 +1,23 @@
-<section [ngClass]="{'slideIn': vokabelnService.showVokabeln, 'slideOut': !vokabelnService.showVokabeln}">
-    <h1>Deine Vokabeln</h1>
-</section>
+<section [ngClass]="{'showVokabeln': vokabelnService.showVokabeln}">
+    <div class="header-in-vocabulary-editing">
+        <h1>Deine Vokabeln</h1>
+        <mat-icon (click)="vokabelnService.toggleShowVokabeln()">close</mat-icon>
+    </div>
 
-<!-- <button (click)="vokabelnService.toggleShowVokabeln()">Toggle Vokabeln anzeigen</button> -->
+    <div class="vokabel-liste">
+        <ul>
+            <li *ngFor="let vokabel of vokabeln" class="vokabel-item">
+                <span class="learned-word">{{ vokabel.myLearnedWord }}</span>
+                <span class="separator"> - </span>
+                <span class="language-word">{{ vokabel.myLanguage }}</span>
+                
+                <!-- Visuelles Indiz für 'korrekt' oder 'inkorrekt' -->
+                <span *ngIf="vokabel.correct" class="status-correct">✓</span>
+                <span *ngIf="vokabel.incorrect" class="status-incorrect">✘</span>
+              </li>
+              
+
+        </ul>
+    </div>
+
+</section>
