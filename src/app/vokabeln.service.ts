@@ -30,6 +30,7 @@ export class VokabelnService {
   private router = inject(Router);
 
 
+
   constructor(private firestore: Firestore) {
     const auth = getAuth();
 
@@ -101,7 +102,6 @@ export class VokabelnService {
 
   getAllVokabelnForUser(): Observable<any[]> {
     if (!this.userId) {
-      console.error('Kein Benutzer angemeldet');
       return new Observable(); // Rückgabe eines leeren Observables, wenn kein Benutzer angemeldet
     }
   
@@ -151,7 +151,6 @@ export class VokabelnService {
         console.error('Fehler beim Speichern der Vokabeln:', error);
       }
     } else {
-      console.error('Kein Benutzer angemeldet');
     }
   }
 
@@ -161,7 +160,6 @@ export class VokabelnService {
       const userVokabelnCollection = collection(this.firestore, `users/${this.userId}/vokabeln`);
       return collectionData(userVokabelnCollection, { idField: 'id' });
     } else {
-      console.error('Kein Benutzer angemeldet');
       return new Observable(); // Rückgabe eines leeren Observables, wenn kein Benutzer angemeldet
     }
   }
@@ -176,7 +174,6 @@ export class VokabelnService {
 
   async correct(vokabel: any) {
     if (!this.userId) {
-      console.error('Fehler: Kein Benutzer angemeldet!');
       return;
     }
 
@@ -220,22 +217,30 @@ export class VokabelnService {
     this.englisch = false;
   }
 
-  private async deleteVokabel(vokabelId: string) {
+  public async deleteVokabel(vokabelId: string) {
     if (!this.userId) {
-      console.error('Fehler: Kein Benutzer angemeldet!');
       return;
     }
-
-    // Korrekte Pfadangabe für die Benutzersammlung
+  
+    // Lösche die Vokabel aus der 'vokabeln'-Sammlung
     const vokabelDoc = doc(this.firestore, `users/${this.userId}/vokabeln/${vokabelId}`);
-
+    const correctVokabelDoc = doc(this.firestore, `users/${this.userId}/correctvokabel/${vokabelId}`);
+    const incorrectVokabelDoc = doc(this.firestore, `users/${this.userId}/incorrectvokabel/${vokabelId}`);
+  
     try {
-      await deleteDoc(vokabelDoc);
+      // Lösche die Vokabel aus allen relevanten Sammlungen
+      await Promise.all([
+        deleteDoc(vokabelDoc),
+        deleteDoc(correctVokabelDoc),
+        deleteDoc(incorrectVokabelDoc)
+      ]);
+  
       console.log(`Vokabel mit ID "${vokabelId}" wurde erfolgreich gelöscht.`);
     } catch (error) {
       console.error('Fehler beim Löschen der Vokabel:', error);
     }
   }
+  
 
 
   isVokabelnEmpty(): Observable<boolean> {
@@ -246,7 +251,6 @@ export class VokabelnService {
 
   async moveDocuments(sourceCollectionName: string, targetCollectionName: string) {
     if (!this.userId) {
-      console.error('Fehler: Kein Benutzer angemeldet!');
       return;
     }
 
@@ -274,7 +278,6 @@ export class VokabelnService {
 
   async allVokabelnRestore() {
     if (!this.userId) {
-      console.error('Fehler: Kein Benutzer angemeldet!');
       return;
     }
 

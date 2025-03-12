@@ -20,4 +20,8 @@ export class HeaderComponent {
     this.userName = this.vokabelnService.getUserName();
   }
 
+  navigateToLogin() {
+    this.router.navigate(['/LogIn']);
+  }
+
 }

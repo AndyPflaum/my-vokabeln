@@ -4,20 +4,24 @@
         <mat-icon (click)="vokabelnService.toggleShowVokabeln()">close</mat-icon>
     </div>
 
-    <div class="vokabel-liste">
-        <ul>
-            <li *ngFor="let vokabel of vokabeln" class="vokabel-item">
+    <!-- *ngFor auf li anwenden -->
+    <ul class="vokabel-liste">
+        <li *ngFor="let vokabel of vokabeln" class="vokabel-item">
+            <div class="vokabel-in-li">
                 <span class="learned-word">{{ vokabel.myLearnedWord }}</span>
                 <span class="separator"> - </span>
                 <span class="language-word">{{ vokabel.myLanguage }}</span>
-                
+
                 <!-- Visuelles Indiz für 'korrekt' oder 'inkorrekt' -->
                 <span *ngIf="vokabel.correct" class="status-correct">✓</span>
                 <span *ngIf="vokabel.incorrect" class="status-incorrect">✘</span>
-              </li>
-              
+            </div>
 
-        </ul>
-    </div>
-
+            <!-- Bearbeiten-Icon -->
+            <div class="icon-container">
+                <mat-icon (click)="editVokabel(vokabel)">edit</mat-icon>
+                <mat-icon (click)="deleteVokabel(vokabel.id)">delete</mat-icon>
+            </div>
+        </li>
+    </ul>
 </section>

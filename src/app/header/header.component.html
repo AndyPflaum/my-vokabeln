@@ -4,6 +4,7 @@
 
     <ng-template #notLoggedIn>
         <h2>Kein Benutzer eingeloggt</h2>
+        <button class="loggin" (click)="navigateToLogin()">BITTE EINLOGGEN</button>
     </ng-template>
 
     <button mat-icon-button *ngIf="userName" [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
@@ -19,7 +20,7 @@
 
         <button mat-menu-item *ngIf="userName">
             <mat-icon>edit</mat-icon>
-            <span (click)="vokabelnService.toggleShowVokabeln()" >Vokabeln bearbeitet / anzeigen</span>
+            <span (click)="vokabelnService.toggleShowVokabeln()" >Vokabeln bearbeitet / löschen</span>
         </button>
         <button mat-menu-item (click)="vokabelnService.logout()">
             <mat-icon>logout</mat-icon>

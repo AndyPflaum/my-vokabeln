@@ -1,13 +1,27 @@
-section{
+section {
     padding: 10px;
     background-color: rgb(88, 88, 230);
     display: flex;
     align-content: center;
     justify-content: space-between;
     align-items: center;
-    font-family: cursive,Arial, Helvetica, sans-serif;
-.mat-menu{
-    width: 300px;
-    background-color: lightblue;
-}
+    font-family: cursive, Arial, Helvetica, sans-serif;
+
+    .mat-menu {
+        width: 300px;
+        background-color: lightblue;
+    }
+    .loggin {
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 10px;
+        background: gold;
+        animation: blink 1s infinite alternate;
+    }
+    
+    /* Blink-Animation */
+    @keyframes blink {
+        0% { opacity: 1; }
+        100% { opacity: 0.5; }
+    }
 }
