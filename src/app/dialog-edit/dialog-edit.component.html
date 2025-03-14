@@ -1,0 +1,20 @@
+<section>
+    <h2>Vokabel bearbeiten</h2>
+
+    <!-- Zeigt das Formular nur an, wenn die Vokabel geladen ist -->
+    <form *ngIf="vokabel" (ngSubmit)="updateVokabel()">
+      <label>
+        <input type="text" [(ngModel)]="vokabel.myLearnedWord" name="myLearnedWord" required />
+      </label>
+
+      <label>
+        <input type="text" [(ngModel)]="vokabel.myLanguage" name="myLanguage" required />
+      </label>
+
+      <!-- Button innerhalb des Formulars, um das Formular abzusenden -->
+      <div class="button-container">
+        <button mat-raised-button type="submit">Speichern</button>
+        <button mat-raised-button type="button" (click)="closeDialog()">Abbrechen</button>
+      </div>
+    </form>
+</section>

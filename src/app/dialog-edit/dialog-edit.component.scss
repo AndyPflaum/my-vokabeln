@@ -1,0 +1,19 @@
+section{
+    background-color: lightblue;
+    padding: 20px;
+    font-size: 18px;
+
+    input{
+        font-size: 18px;
+    }
+
+    .button-container {
+        margin-top: 20px; /* Abstand zwischen den Eingabefeldern und den Buttons */
+        display: flex;
+        justify-content: space-between; /* Platziert die Buttons nebeneinander */
+      }
+      
+      button {
+        margin: 5px; /* Etwas Abstand zwischen den Buttons */
+      }
+}

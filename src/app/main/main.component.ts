@@ -25,7 +25,6 @@ import { ShowVocabularyComponent } from '../show-vocabulary/show-vocabulary.comp
 })
 export class MainComponent implements OnInit {
   isYellow = false;
-  private dialog = inject(MatDialog);
   vokabelnEmpty = false;
   userName: string = '';
 

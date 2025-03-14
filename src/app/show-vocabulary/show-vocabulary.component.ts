@@ -32,32 +32,4 @@ export class ShowVocabularyComponent {
     // Hier kannst du ein Formular öffnen oder eine Editierfunktion aufrufen
   }
 
-  deleteVokabel(id: string) {
-    if (confirm("Möchtest du diese Vokabel wirklich löschen?")) {
-      // Lösche aus dem Haupt-Array vokabeln
-      this.vokabelnService.deleteVokabel(id).then(() => {
-        // Entferne die Vokabel auch aus den correctVokabeln und incorrectVokabeln Arrays
-        this.removeVokabelFromArray(id, this.correctVokabeln);
-        this.removeVokabelFromArray(id, this.incorrectVokabeln);
-
-        console.log("Vokabel gelöscht:", id);
-      }).catch(error => {
-        console.error("Fehler beim Löschen:", error);
-      });
-    }
-  }
-
-  // Hilfsmethode, um eine Vokabel aus einem Array zu entfernen
-  private removeVokabelFromArray(id: string, array: any[]) {
-    const index = array.findIndex(vokabel => vokabel.id === id);
-    console.log('Versuche, Vokabel mit ID:', id, 'aus Array zu entfernen. Gefundener Index:', index);
-    
-    if (index !== -1) {
-      array.splice(index, 1); // Entferne die Vokabel
-      console.log('Vokabel entfernt:', array);
-    } else {
-      console.log('Vokabel nicht gefunden.');
-    }
-  }
-
 }

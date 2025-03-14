@@ -13,14 +13,14 @@
                 <span class="language-word">{{ vokabel.myLanguage }}</span>
 
                 <!-- Visuelles Indiz für 'korrekt' oder 'inkorrekt' -->
-                <span *ngIf="vokabel.correct" class="status-correct">✓</span>
+                <span *ngIf="vokabel.correct" class="status-correct" (click)="editVokabel(vokabel)">✓</span>
                 <span *ngIf="vokabel.incorrect" class="status-incorrect">✘</span>
             </div>
 
             <!-- Bearbeiten-Icon -->
             <div class="icon-container">
-                <mat-icon (click)="editVokabel(vokabel)">edit</mat-icon>
-                <mat-icon (click)="deleteVokabel(vokabel.id)">delete</mat-icon>
+                <mat-icon (click)="vokabelnService.openDialogEdit(vokabel.id)">edit</mat-icon>
+                <mat-icon (click)="vokabelnService.openDialogDelete(vokabel.id)">delete</mat-icon>
             </div>
         </li>
     </ul>

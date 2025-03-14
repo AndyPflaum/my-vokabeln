@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, getDoc, getDocs } from '@angular/fire/firestore';
+import { addDoc, collection, collectionData, deleteDoc, doc, Firestore, getDoc, getDocs, setDoc } from '@angular/fire/firestore';
 import { map, Observable } from 'rxjs';
 import { DialogAddVokabelnComponent } from './dialog-add-vokabeln/dialog-add-vokabeln.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,6 +8,8 @@ import { getAuth } from '@angular/fire/auth';
 import { onAuthStateChanged, User } from '@firebase/auth';
 import { Router } from '@angular/router'; // Router importieren
 import { combineLatest } from 'rxjs'; // Importiere combineLatest
+import { DialogDeleteComponent } from './dialog-delete/dialog-delete.component';
+import { DialogEditComponent } from './dialog-edit/dialog-edit.component';
 
 
 
@@ -350,6 +352,37 @@ export class VokabelnService {
   openDialogAddVokabel() {
     this.dialog.open(DialogAddVokabelnComponent);
   }
+
+  openDialogDelete(vokabelId: string) {
+    this.dialog.open(DialogDeleteComponent, {
+      data: { vokabelId } // ID an den Dialog übergeben
+    });
+  }
+
+  updateVokabel(vokabelId: string, updatedVokabel: any) {
+    const vokabelRef = doc(this.firestore, `users/${this.userId}/vokabeln/${vokabelId}`);
+    return setDoc(vokabelRef, updatedVokabel);
+  }
+
+  openDialogEdit(vokabelId: string) {
+    // Hole die Vokabel-Daten basierend auf der ID
+    const vokabelRef = doc(this.firestore, `users/${this.userId}/vokabeln/${vokabelId}`);
+    getDoc(vokabelRef).then((docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const vokabel = { id: docSnapshot.id, ...docSnapshot.data() };
+        this.dialog.open(DialogEditComponent, {
+          data: { vokabel }  // Vokabel-Daten an den Dialog übergeben
+        });
+      } else {
+        console.error('Vokabel nicht gefunden!');
+      }
+    }).catch(error => {
+      console.error('Fehler beim Laden der Vokabel:', error);
+    });
+  }
+  
+  
+  
 
   openDialogRegister() {
     this.dialog.open(RegisterComponent);
