@@ -22,14 +22,20 @@ export class ShowVocabularyComponent {
 
   ngOnInit() {
     this.vokabelnService.getAllVokabelnForUser().subscribe((data) => {
-      console.log('Geladene Vokabeln:', data);  // Debug-Ausgabe
-      this.vokabeln = data; // Speichert die erhaltenen Daten in der `vokabeln`-Array
+      this.vokabeln = this.shuffleArray(data); // 👉 Vokabeln mischen
     });
   }
 
   editVokabel(vokabel: any) {
     console.log("Bearbeiten:", vokabel);
     // Hier kannst du ein Formular öffnen oder eine Editierfunktion aufrufen
+  }
+
+  shuffleArray(array: any[]): any[] {
+    return array
+      .map(item => ({ sort: Math.random(), value: item }))
+      .sort((a, b) => a.sort - b.sort)
+      .map(({ value }) => value);
   }
 
 }

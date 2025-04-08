@@ -9,15 +9,22 @@ section{
     border-radius: 20px;
     border: solid 3px ;
     text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s ease-in;
 
     &.isGreen{
         color: green;
         background-color: green;
+    
     }
 
     &.isRed{
         color: red;
         background-color: red;
+    
     }
 
     .sprachen{

@@ -17,10 +17,13 @@ export class CorrectAndIncorrectComponent {
   handleCorrect() {
     this.vokabelnService.correct(this.vokabel); // Ganze Vokabel übergeben
     this.vokabelnService.vokabelIsGreen();
+    this.vokabelnService.vokabelIsCorrect();
   }
 
   handleIncorrect() {
     this.vokabelnService.incorrect(this.vokabel); // Ganze Vokabel übergeben
     this.vokabelnService.vokabelIsRed();
+    this.vokabelnService.vokabelisIncorrect();
+
   }
 }

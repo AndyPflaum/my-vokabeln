@@ -37,7 +37,7 @@ export class DialogAddVokabelnComponent {
   async saveVocabulary() {
     this.vokabelnService.addVokabelnForUser(this.vokabel);
     this.onNoClick();
-  
+      
   }
 
 

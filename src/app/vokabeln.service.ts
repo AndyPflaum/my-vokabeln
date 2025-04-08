@@ -22,7 +22,7 @@ export class VokabelnService {
   private userName: string = '';
   englisch = false;
   isCorrect = false;
-  isIncorrect = false;
+  isInCorrect = false;
   arrowIsOpen = false;
   backgroundBlack = false;
   isGreenOn = false;
@@ -30,6 +30,7 @@ export class VokabelnService {
   showVokabeln: boolean = false;
   private dialog = inject(MatDialog);
   private router = inject(Router);
+  public userData: any = {};
 
 
 
@@ -43,7 +44,7 @@ export class VokabelnService {
         await this.fetchUserName(user.uid);
         this.userLoggedIn = true;  // Benutzernamen nach dem Login laden
       } else {
-        this.userId = ''; 
+        this.userId = '';
         // Falls der Benutzer nicht angemeldet ist, zur Login-Seite weiterleiten
         this.router.navigate(['/LogIn']);
       }
@@ -53,15 +54,15 @@ export class VokabelnService {
 
   private async fetchUserName(userId: string) {
     try {
-      // Hole das Benutzer-Dokument aus Firestore, angenommen, es befindet sich in der Collection 'users'
-      const userDoc = doc(this.firestore, `users/${userId}`);
+      const userDoc = this.getUserDocRef(userId);
       const docSnapshot = await getDoc(userDoc);
-      
-      if (docSnapshot.exists()) {
-        // Wenn das Dokument existiert, setze den Benutzernamen
-        this.userName = docSnapshot.data()?.['username'] || 'Unbekannt';  // Verwende die indexierte Notation
 
-        // Wenn kein Benutzername vorhanden ist, leite zur Login-Seite weiter
+      if (docSnapshot.exists()) {
+        const data = docSnapshot.data();
+
+        this.userName = data?.['username'] || 'Unbekannt';
+        this.userData = data; // 🔥 speichert alles in userData
+
         if (this.userName === '') {
           this.router.navigate(['/LogIn']);
         }
@@ -70,16 +71,15 @@ export class VokabelnService {
       }
     } catch (error) {
       console.error('Fehler beim Abrufen des Benutzernamens:', error);
-      this.userName = 'Unbekannt';  // Falls ein Fehler auftritt, setze 'Unbekannt'
-      this.router.navigate(['/LogIn']);  // Falls ein Fehler auftritt, zur Login-Seite weiterleiten
+      this.userName = 'Unbekannt';
+      this.router.navigate(['/LogIn']);
     }
   }
+
 
   getUserName() {
     return this.userName;
   }
-
-  
 
   setUserId(userId: string): void {
     this.userId = userId;
@@ -88,13 +88,13 @@ export class VokabelnService {
   }
 
   async loadUserName(userId: string) {
-    const userRef = doc(this.firestore, `users/${userId}`);
+    const userRef = this.getUserDocRef(userId);
     const userSnap = await getDoc(userRef);
-    
+
     if (userSnap.exists()) {
       this.userName = userSnap.data()['username'] || 'Unbekannt';
     } else {
-      this.userName = 'Unbekannt'; 
+      this.userName = 'Unbekannt';
     }
   }
 
@@ -106,19 +106,18 @@ export class VokabelnService {
     if (!this.userId) {
       return new Observable(); // Rückgabe eines leeren Observables, wenn kein Benutzer angemeldet
     }
-  
+
     // Collection-Referenzen für 'vokabeln', 'correctvokabel' und 'incorrectvokabel'
-    const vokabelnCollection = collection(this.firestore, `users/${this.userId}/vokabeln`);
-    const correctCollection = collection(this.firestore, `users/${this.userId}/correctvokabel`);
-    const incorrectCollection = collection(this.firestore, `users/${this.userId}/incorrectvokabel`);
-  
+    const [vokabelnCollection, correctCollection, incorrectCollection] = this.getCollectionsForUser(this.userId);
+
+
     // Alle Sammlungen kombinieren
     const combinedVokabeln = [
       collectionData(vokabelnCollection, { idField: 'id' }),
       collectionData(correctCollection, { idField: 'id' }),
       collectionData(incorrectCollection, { idField: 'id' })
     ];
-  
+
     return combineLatest(combinedVokabeln).pipe(
       map(([vokabeln, correct, incorrect]) => {
         // Alle Vokabeln zusammenführen
@@ -126,7 +125,7 @@ export class VokabelnService {
       })
     );
   }
-  
+
 
   logout() {
     this.userLoggedIn = false;
@@ -136,7 +135,7 @@ export class VokabelnService {
 
   }
 
-  gastLoggin(){
+  gastLoggin() {
     this.userName = 'Gast';
   }
 
@@ -223,12 +222,12 @@ export class VokabelnService {
     if (!this.userId) {
       return;
     }
-  
+
     // Lösche die Vokabel aus der 'vokabeln'-Sammlung
     const vokabelDoc = doc(this.firestore, `users/${this.userId}/vokabeln/${vokabelId}`);
     const correctVokabelDoc = doc(this.firestore, `users/${this.userId}/correctvokabel/${vokabelId}`);
     const incorrectVokabelDoc = doc(this.firestore, `users/${this.userId}/incorrectvokabel/${vokabelId}`);
-  
+
     try {
       // Lösche die Vokabel aus allen relevanten Sammlungen
       await Promise.all([
@@ -236,13 +235,13 @@ export class VokabelnService {
         deleteDoc(correctVokabelDoc),
         deleteDoc(incorrectVokabelDoc)
       ]);
-  
+
       console.log(`Vokabel mit ID "${vokabelId}" wurde erfolgreich gelöscht.`);
     } catch (error) {
       console.error('Fehler beim Löschen der Vokabel:', error);
     }
   }
-  
+
 
 
   isVokabelnEmpty(): Observable<boolean> {
@@ -380,9 +379,24 @@ export class VokabelnService {
       console.error('Fehler beim Laden der Vokabel:', error);
     });
   }
-  
-  
-  
+
+  getUserDocRef(userId: string) {
+    return doc(this.firestore, `users/${userId}`);
+  }
+
+  getUserVokabeln(userId: string) {
+    return collection(this.firestore, `users/${userId}/vokabeln`)
+  }
+
+  private getCollectionsForUser(userId: string) {
+    // Collection-Referenzen für 'vokabeln', 'correctvokabel' und 'incorrectvokabel'
+    const vokabelnCollection = collection(this.firestore, `users/${userId}/vokabeln`);
+    const correctCollection = collection(this.firestore, `users/${userId}/correctvokabel`);
+    const incorrectCollection = collection(this.firestore, `users/${userId}/incorrectvokabel`);
+
+    return [vokabelnCollection, correctCollection, incorrectCollection];
+  }
+
 
   openDialogRegister() {
     this.dialog.open(RegisterComponent);
@@ -429,8 +443,23 @@ export class VokabelnService {
 
 
   toggleShowVokabeln() {
-    this.showVokabeln =!this.showVokabeln;
-}
+    this.showVokabeln = !this.showVokabeln;
+  }
+
+  vokabelIsCorrect() {
+    this.isCorrect = true;
+    setTimeout(() => {
+      this.isCorrect = false;
+    }, 1000);
+  }
+
+  
+  vokabelisIncorrect() {
+    this.isInCorrect = true;
+    setTimeout(() => {
+      this.isInCorrect = false;
+    }, 1000);
+  }
 
 
 }
