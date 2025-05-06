@@ -4,11 +4,12 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-show-vocabulary',
   standalone: true,
-  imports: [CommonModule, MatIconModule, MatMenuModule, MatButtonModule],
+  imports: [CommonModule, MatIconModule, MatMenuModule, MatButtonModule, FormsModule],
   templateUrl: './show-vocabulary.component.html',
   styleUrl: './show-vocabulary.component.scss'
 })
@@ -37,5 +38,14 @@ export class ShowVocabularyComponent {
       .sort((a, b) => a.sort - b.sort)
       .map(({ value }) => value);
   }
+
+  get filteredVokabeln() {
+    const term = this.vokabelnService.searchTerm.toLowerCase();
+    return this.vokabeln.filter(v =>
+      v.myLearnedWord.toLowerCase().includes(term) ||
+      v.myLanguage.toLowerCase().includes(term)
+    );
+  }
+  
 
 }

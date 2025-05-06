@@ -1,12 +1,13 @@
 <section [ngClass]="{'showVokabeln': vokabelnService.showVokabeln}">
     <div class="header-in-vocabulary-editing">
         <h1>Deine Vokabeln</h1>
+        <input type="text" placeholder="Vokabeln suchen" [(ngModel)]="vokabelnService.searchTerm">
         <mat-icon (click)="vokabelnService.toggleShowVokabeln()">close</mat-icon>
     </div>
 
     <!-- *ngFor auf li anwenden -->
     <ul class="vokabel-liste">
-        <li *ngFor="let vokabel of vokabeln" class="vokabel-item">
+        <li *ngFor="let vokabel of filteredVokabeln" class="vokabel-item">
             <div class="vokabel-in-li">
                 <span class="learned-word">{{ vokabel.myLearnedWord }}</span>
                 <span class="separator"> - </span>

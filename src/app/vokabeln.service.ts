@@ -31,6 +31,7 @@ export class VokabelnService {
   private dialog = inject(MatDialog);
   private router = inject(Router);
   public userData: any = {};
+  searchTerm: string = '';
 
 
 

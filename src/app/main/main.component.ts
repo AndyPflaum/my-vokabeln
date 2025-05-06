@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog'; // MatDialog importieren
 import { HeaderComponent } from '../header/header.component';
 import { ShowVocabularyComponent } from '../show-vocabulary/show-vocabulary.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-main',
@@ -18,7 +19,8 @@ import { ShowVocabularyComponent } from '../show-vocabulary/show-vocabulary.comp
     MatButtonModule,
     HeaderComponent,
     MatDialogModule, 
-    ShowVocabularyComponent
+    ShowVocabularyComponent,
+    FormsModule
   ],
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss']
